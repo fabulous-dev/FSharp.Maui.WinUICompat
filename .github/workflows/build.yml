@@ -1,0 +1,31 @@
+name: Build
+on:
+   push:
+     branches: [ 'main' ]
+     paths-ignore: [ 'docs/**' ]
+
+permissions: write-all
+
+jobs:
+  build:
+    runs-on: windows-latest
+    env:
+      VERSION: 1.0.0
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.x
+    - name: Install dotnet workload
+      run: dotnet workload install maui
+    - name: Restore
+      run: dotnet restore
+    - name: Build
+      run: dotnet build -p:Version=${env:VERSION}-nightly-${env:GITHUB_RUN_ID} --no-restore --configuration Release
+    # - name: Test
+    #   run: dotnet test -p:Version=${env:VERSION}-nightly-${env:GITHUB_RUN_ID} --no-build --configuration Release
+    # - name: Pack
+    #   run: dotnet pack -p:Version=${env:VERSION}-nightly-${env:GITHUB_RUN_ID} --configuration Release --output nupkgs
+    # - name: Push
+    #   run: dotnet nuget push "nupkgs\*.nupkg" -s https://nuget.pkg.github.com/fsharp-mobile/index.json -k ${{ github.token }} --skip-duplicate
