@@ -47,7 +47,9 @@ public partial class App : global::Microsoft.UI.Xaml.Markup.IXamlMetadataProvide
 
     public global::Microsoft.UI.Xaml.Markup.IXamlType GetXamlType(string fullName)
     {
-        return _AppProvider.GetXamlType(fullName);
+        var result = _AppProvider.GetXamlType(fullName);
+        System.Diagnostics.Debug.WriteLine(fullName);
+        return result;
     }
 
 
