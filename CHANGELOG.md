@@ -18,6 +18,6 @@ _No unreleased changes_
 
 First release to add support helpers to enable compiling the WinUI target with Maui and F#
 
-[unreleased]: https://github.com/fabulous-dev/Fabulous.MauiControls/compare/1.0.1...HEAD
-[1.0.1]: https://github.com/fabulous-dev/Fabulous.MauiControls/releases/tag/1.0.1
+[unreleased]: https://github.com/fabulous-dev/Fabulous.MauiControls/compare/1.1.0...HEAD
+[1.1.0]: https://github.com/fabulous-dev/Fabulous.MauiControls/releases/tag/1.1.0
 [1.0.0]: https://github.com/fabulous-dev/Fabulous.MauiControls/releases/tag/1.0.0
