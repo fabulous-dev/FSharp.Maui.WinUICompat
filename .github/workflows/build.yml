@@ -24,7 +24,7 @@ jobs:
         path: ./CHANGELOG.md
     - name: Set nightly version
       run: |
-        $env:NIGHTLY_VERSION = '${{ steps.changelog_reader.outputs.version }}-nightly-${{ env.GITHUB_RUN_ID }}'
+        $env:NIGHTLY_VERSION = "${{ steps.changelog_reader.outputs.version }}-nightly-$env:GITHUB_RUN_ID"
         echo "Nightly version is $env:NIGHTLY_VERSION"
         echo "NIGHTLY_VERSION=$env:NIGHTLY_VERSION" | Out-File -FilePath $env:GITHUB_ENV -Append
     - name: Setup .NET
