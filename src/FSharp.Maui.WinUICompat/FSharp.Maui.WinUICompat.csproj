@@ -15,6 +15,12 @@
     <DefineConstants>DISABLE_XAML_GENERATED_MAIN;$(DefineConstants)</DefineConstants>
   </PropertyGroup>
 
+  <ItemGroup Condition="'$(IsPackable)' == 'true'">
+    <None Include="FSharp.Maui.WinUICompat.props"
+          PackagePath="build/FSharp.Maui.WinUICompat.props"
+          Pack="true" />
+	</ItemGroup>
+	
   <ItemGroup>
     <None Include="PackageREADME.md" Pack="true" PackagePath="\" />
     <None Include="../../logo/nuget-icon.png" Pack="true" PackagePath="\" />
