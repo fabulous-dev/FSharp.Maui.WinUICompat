@@ -18,6 +18,6 @@ jobs:
     - name: Install dotnet workload
       run: dotnet workload install maui
     - name: Restore
-      run: dotnet restore ${SLN_FILE}
+      run: dotnet restore $env:SLN_FILE
     - name: Build
-      run: dotnet build ${SLN_FILE} -c ${CONFIG} --no-restore
+      run: dotnet build $env:SLN_FILE -c $env:CONFIG --no-restore

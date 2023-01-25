@@ -24,9 +24,9 @@ jobs:
         path: ./CHANGELOG.md
     - name: Set nightly version
       run: |
-        NIGHTLY_VERSION=${{ steps.changelog_reader.outputs.version }}-nightly-${GITHUB_RUN_ID}
-        echo "Nightly version is $NIGHTLY_VERSION"
-        echo "NIGHTLY_VERSION=$NIGHTLY_VERSION" >> "$GITHUB_ENV"
+        $env:NIGHTLY_VERSION = '${{ steps.changelog_reader.outputs.version }}-nightly-$env:GITHUB_RUN_ID'
+        echo "Nightly version is $env:NIGHTLY_VERSION"
+        echo "NIGHTLY_VERSION=$env:NIGHTLY_VERSION" | Out-File -FilePath $env:GITHUB_ENV -Append
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
@@ -34,11 +34,11 @@ jobs:
     - name: Install dotnet workload
       run: dotnet workload install maui
     - name: Restore
-      run: dotnet restore ${SLN_FILE}
+      run: dotnet restore $env:SLN_FILE
     - name: Build
-      run: dotnet build ${SLN_FILE} -p:Version=${NIGHTLY_VERSION} -c ${CONFIG} --no-restore
+      run: dotnet build $env:SLN_FILE -p:Version=$env:NIGHTLY_VERSION -c $env:CONFIG --no-restore
     - name: Pack
-      run: dotnet pack ${SLN_FILE} -p:Version=${NIGHTLY_VERSION} -c ${CONFIG} --no-build --output nupkgs
+      run: dotnet pack $env:SLN_FILE -p:Version=$env:NIGHTLY_VERSION -c $env:CONFIG --no-build --output nupkgs
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
