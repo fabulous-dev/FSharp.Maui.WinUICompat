@@ -6,26 +6,43 @@ on:
 
 permissions: write-all
 
+env:
+  CONFIG: Release
+  SLN_FILE: FSharp.Maui.WinUICompat.NoSamples.sln
+
 jobs:
   build:
     runs-on: windows-latest
-    env:
-      VERSION: 1.0.0
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout sources
+      uses: actions/checkout@v3
+    - name: Read last version from CHANGELOG.md
+      id: changelog_reader
+      uses: mindsers/changelog-reader-action@v2
+      with:
+        validation_level: warn
+        path: ./CHANGELOG.md
+    - name: Set nightly version
+      run: |
+        NIGHTLY_VERSION=${{ steps.changelog_reader.outputs.version }}-nightly-${GITHUB_RUN_ID}
+        echo "Nightly version is $NIGHTLY_VERSION"
+        echo "NIGHTLY_VERSION=$NIGHTLY_VERSION" >> "$GITHUB_ENV"
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 7.x
+        dotnet-version: 7.0.x
     - name: Install dotnet workload
       run: dotnet workload install maui
     - name: Restore
-      run: dotnet restore
+      run: dotnet restore ${SLN_FILE}
     - name: Build
-      run: dotnet build -p:Version=${env:VERSION}-nightly-${env:GITHUB_RUN_ID} --no-restore --configuration Release
-    # - name: Test
-    #   run: dotnet test -p:Version=${env:VERSION}-nightly-${env:GITHUB_RUN_ID} --no-build --configuration Release
-    # - name: Pack
-    #   run: dotnet pack -p:Version=${env:VERSION}-nightly-${env:GITHUB_RUN_ID} --configuration Release --output nupkgs
-    # - name: Push
-    #   run: dotnet nuget push "nupkgs\*.nupkg" -s https://nuget.pkg.github.com/fsharp-mobile/index.json -k ${{ github.token }} --skip-duplicate
+      run: dotnet build ${SLN_FILE} -p:Version=${NIGHTLY_VERSION} -c ${CONFIG} --no-restore
+    - name: Pack
+      run: dotnet pack ${SLN_FILE} -p:Version=${NIGHTLY_VERSION} -c ${CONFIG} --no-build --output nupkgs
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: Packages
+        path: nupkgs/
+    - name: Push
+      run: dotnet nuget push "nupkgs/*.nupkg" -s https://nuget.pkg.github.com/fabulous-dev/index.json -k ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
