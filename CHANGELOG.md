@@ -14,7 +14,7 @@ _No unreleased changes_
 ### Added
 - Add a props file to ensure the Maui WinUI target is compiled correctly by @PureWeen (https://github.com/fabulous-dev/FSharp.Maui.WinUICompat/pull/1)
 
-## [1.0.0] - 2023-01-05
+## [1.0.0] - 2022-11-15
 
 First release to add support helpers to enable compiling the WinUI target with Maui and F#
 
