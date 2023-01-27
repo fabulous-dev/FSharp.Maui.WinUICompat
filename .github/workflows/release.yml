@@ -21,12 +21,12 @@ jobs:
       uses: damienaicheh/extract-version-from-tag-action@v1.0.0
     - name: Set release version
       run: |
-        $RELEASE_VERSION = ""
+        $env:RELEASE_VERSION = ""
         if ("$env:PRE_RELEASE" -eq "") {
-          $RELEASE_VERSION = "$env:MAJOR.$env:MINOR.$env:PATCH"
+          $env:RELEASE_VERSION = "$env:MAJOR.$env:MINOR.$env:PATCH"
         }
         else {
-          $RELEASE_VERSION = "$env:MAJOR.$env:MINOR.$env:PATCH-$env:PRE_RELEASE"
+          $env:RELEASE_VERSION = "$env:MAJOR.$env:MINOR.$env:PATCH-$env:PRE_RELEASE"
         }
         echo "Release version is $env:RELEASE_VERSION"
         echo "RELEASE_VERSION=$env:RELEASE_VERSION" | Out-File -FilePath $env:GITHUB_ENV -Append
