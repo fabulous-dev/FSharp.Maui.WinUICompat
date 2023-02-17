@@ -38,7 +38,7 @@ jobs:
     - name: Build
       run: dotnet build $env:SLN_FILE -p:Version=$env:NIGHTLY_VERSION -c $env:CONFIG --no-restore
     - name: Pack
-      run: dotnet pack $env:SLN_FILE -p:Version=$env:NIGHTLY_VERSION -c $env:CONFIG --no-build --output nupkgs
+      run: dotnet pack $env:SLN_FILE -p:Version=$env:NIGHTLY_VERSION -c $env:CONFIG --no-build --property PackageOutputPath=${PWD}/nupkgs
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:

@@ -48,7 +48,7 @@ jobs:
     - name: Build
       run: dotnet build $env:SLN_FILE -p:Version=$env:RELEASE_VERSION -c $env:CONFIG --no-restore
     - name: Pack
-      run: dotnet pack $env:SLN_FILE -p:Version=$env:RELEASE_VERSION -p:PackageReleaseNotes="${{ steps.changelog_reader.outputs.changes }}" -c $env:CONFIG --no-build --output nupkgs
+      run: dotnet pack $env:SLN_FILE -p:Version=$env:RELEASE_VERSION -p:PackageReleaseNotes="${{ steps.changelog_reader.outputs.changes }}" -c $env:CONFIG --no-build --property PackageOutputPath=${PWD}/nupkgs
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
