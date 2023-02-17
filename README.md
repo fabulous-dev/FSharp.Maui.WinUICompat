@@ -20,3 +20,16 @@ type App() =
 -    inherit MauiWinUIApplication()
 +    inherit FSharp.Maui.WinUICompat.App()
 ```
+
+3. Create the file `Platforms\Windows\Main.fs`, add the following code
+
+```fs
+module Program =
+    [<EntryPoint>]
+    [<STAThread>]
+    let main args =
+        do FSharp.Maui.WinUICompat.Program.Main(args, typeof<YourApp.WinUI.App>)
+        0
+```
+
+Where `YourApp.WinUI.App` is the `App` class defined in step 2
